@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Grabbable",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Grabbable",
+  "parent":{
+    "name":"Components",
+    "path":"folders/Scripts/Components.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Hitbox",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Hitbox",
+  "parent":{
+    "name":"Components",
+    "path":"folders/Scripts/Components.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

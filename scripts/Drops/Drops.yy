@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Drops",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Drops",
+  "parent":{
+    "name":"Components",
+    "path":"folders/Scripts/Components.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

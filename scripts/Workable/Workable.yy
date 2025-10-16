@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Workable",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Workable",
+  "parent":{
+    "name":"Components",
+    "path":"folders/Scripts/Components.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

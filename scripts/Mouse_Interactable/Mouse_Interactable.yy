@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Mouse_Interactable",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Mouse_Interactable",
+  "parent":{
+    "name":"Components",
+    "path":"folders/Scripts/Components.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

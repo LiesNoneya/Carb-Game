@@ -1,0 +1,38 @@
+{
+  "$GMTileSet":"v1",
+  "%Name":"TileSet3",
+  "autoTileSets":[],
+  "macroPageTiles":{
+    "SerialiseHeight":0,
+    "SerialiseWidth":0,
+    "TileSerialiseData":[],
+  },
+  "name":"TileSet3",
+  "out_columns":1,
+  "out_tilehborder":2,
+  "out_tilevborder":2,
+  "parent":{
+    "name":"tilesets",
+    "path":"folders/Sprites/Beef Sprites/tiles/tilesets.yy",
+  },
+  "resourceType":"GMTileSet",
+  "resourceVersion":"2.0",
+  "spriteId":{
+    "name":"grass_big_with_foliage",
+    "path":"sprites/grass_big_with_foliage/grass_big_with_foliage.yy",
+  },
+  "spriteNoExport":false,
+  "textureGroupId":{
+    "name":"Default",
+    "path":"texturegroups/Default",
+  },
+  "tileAnimationFrames":[],
+  "tileAnimationSpeed":15.0,
+  "tileHeight":256,
+  "tilehsep":0,
+  "tilevsep":0,
+  "tileWidth":256,
+  "tilexoff":0,
+  "tileyoff":0,
+  "tile_count":2,
+}

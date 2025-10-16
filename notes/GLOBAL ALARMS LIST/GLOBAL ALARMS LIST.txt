@@ -1,0 +1,8 @@
+ANIMATABLE {
+	play_anim() = 11
+	
+	
+	ITEM {
+		something with grabbing = NEED TO CHECK
+	}
+}
