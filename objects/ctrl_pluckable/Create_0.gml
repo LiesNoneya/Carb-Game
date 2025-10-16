@@ -1,5 +1,5 @@
 event_inherited();
-grab_setup_enable_tug(25, 6, pluck);
+grab_setup_enable_tug(100, 6, pluck);
 plucked_sprite = undefined;
 plucked_x = 0;
 plucked_y = 0;

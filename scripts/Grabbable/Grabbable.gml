@@ -85,6 +85,9 @@ function grab_setup_enable_tug(_tug_dist, _tug_resistance, _tug_end_function)
 	tug_resist = _tug_resistance;
 	tug_progress = 0;
 	tug_end = _tug_end_function;
+	tug_mouse_x = 0;
+	tug_mouse_y = 0;
+	tug_mouse_dist = 0;
 }
 
 
@@ -113,16 +116,28 @@ function grab_step()
 			break;
 			
 		case Grab_States.Tug:
-			//animation stuff some day
+			//this implementation works but it breaks the principle of respecting the player's sensitivity
+			//to fix I need to scale the room coords with the cam zoom
 			tug_progress -= 0.1;
-			var _tug_str = clamp(point_distance(mouse_x, mouse_y, x, y), 0, tug_dist);
+			tug_mouse_update();
+			var _mouse_dist = clamp(point_distance(sys_mouse.x, sys_mouse.y, x, y), 0, tug_dist * 0.99);
+			//should move the hand by the amount of distance the mouse moved on the screen scaled to the max distance of the hand from the plant
+			sys_mouse.x -= tug_mouse_x * tug_dist/global.screen_center_smaller * (tug_dist - _mouse_dist)/tug_dist;
+			sys_mouse.y -= tug_mouse_y * tug_dist/global.screen_center_smaller * (tug_dist - _mouse_dist)/tug_dist;
+			var _tug_str = clamp(_mouse_dist, 0, tug_dist);
+			display_mouse_set(global.screen_center_x, global.screen_center_y);
 			tug_progress += 0.2 * (_tug_str/tug_dist);
+			
+			//if(tug_mouse_dist >= global.screen_center_y)
+			//{
+				//}
 			tug_progress = clamp(tug_progress, 0, tug_resist);
 			if(tug_progress >= tug_resist)
 			{
 				tug_end();
 			}
-			tug_progress = 0;
+			//tug_progress = 0;
+			
 	}
 }
 
@@ -190,6 +205,7 @@ function grab_state_start()
 			break;
 		case Grab_States.Tug:
 			tug_progress = 0;
+			display_mouse_set(global.screen_center_x, global.screen_center_y);
 			break;
 	}
 }
@@ -204,6 +220,8 @@ function grab_state_end()
 		case Grab_States.Flung:
 		
 			break;
+		case Grab_States.Tug:
+			set_mouse_to_room_pos(sys_mouse.x, sys_mouse.y);
 	}
 }
 
@@ -269,4 +287,16 @@ function grab_snap(_x, _y)
 	grab_offset_x = _x;
 	grab_offset_y = _y;
 }
+#endregion
+
+#region Grab Internal Functions
+function tug_mouse_update()
+{
+	
+	tug_mouse_x = clamp(global.screen_center_x - display_mouse_get_x(), -global.screen_center_smaller, global.screen_center_smaller);
+	tug_mouse_y = clamp(global.screen_center_y - display_mouse_get_y(), -global.screen_center_smaller, global.screen_center_smaller);
+	tug_mouse_dist = clamp(point_distance(global.screen_center_x, global.screen_center_y, display_mouse_get_x(), display_mouse_get_y()), -global.screen_center_smaller, global.screen_center_smaller);
+}
+
+
 #endregion
