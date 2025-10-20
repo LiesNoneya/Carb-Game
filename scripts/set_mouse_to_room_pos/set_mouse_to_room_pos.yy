@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"Script12",
+  "%Name":"set_mouse_to_room_pos",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"Script12",
+  "name":"set_mouse_to_room_pos",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",

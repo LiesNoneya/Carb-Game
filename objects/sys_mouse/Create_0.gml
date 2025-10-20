@@ -137,7 +137,7 @@ function mouse_tug_end()
 #endregion
 
 
-
+//this code sucks if it pisses me off one more time I change it to something normal
 function clean_hitbox_lists()
 {
 	for(var _i = 0; _i < ds_list_size(list_mi_hitboxes); _i++)
@@ -145,6 +145,7 @@ function clean_hitbox_lists()
 		if(ds_list_find_value(list_mi_hitboxes, _i).hitbox_destroy == true)
 		{
 			ds_list_delete(list_mi_hitboxes, _i);
+			_i -= 1;
 		}
 	}
 	for(var _i = 0; _i < ds_list_size(list_grab_hitboxes); _i++)
@@ -152,6 +153,7 @@ function clean_hitbox_lists()
 		if(ds_list_find_value(list_grab_hitboxes, _i).hitbox_destroy == true)
 		{
 			ds_list_delete(list_grab_hitboxes, _i);
+			_i -= 1;
 		}
 	}
 }

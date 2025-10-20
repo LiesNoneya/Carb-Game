@@ -12,6 +12,7 @@ function list_workables_add(_obj)
 		ds_list_add(list_workables, _obj);	
 }
 
+
 //will need to update this if I ever add screen switching
 global.screen_center_x = display_get_width()/2;
 global.screen_center_y = display_get_height()/2;

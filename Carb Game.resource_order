@@ -91,7 +91,7 @@
     {"name":"Drops","order":4,"path":"scripts/Drops/Drops.yy",},
     {"name":"Hitbox","order":1,"path":"scripts/Hitbox/Hitbox.yy",},
     {"name":"Mouse_Interactable","order":2,"path":"scripts/Mouse_Interactable/Mouse_Interactable.yy",},
-    {"name":"Script12","order":6,"path":"scripts/Script12/Script12.yy",},
+    {"name":"set_mouse_to_room_pos","order":6,"path":"scripts/set_mouse_to_room_pos/set_mouse_to_room_pos.yy",},
     {"name":"Spawn_Functions","order":5,"path":"scripts/Spawn_Functions/Spawn_Functions.yy",},
     {"name":"Workable","order":3,"path":"scripts/Workable/Workable.yy",},
     {"name":"grass_big_with_foliage","order":4,"path":"sprites/grass_big_with_foliage/grass_big_with_foliage.yy",},

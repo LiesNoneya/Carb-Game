@@ -192,8 +192,7 @@ function updateTarget(_obj) {
 
 #region touching, task, work and Go To functions
 function nearTasks (_radius) {
-	var _tasks = ds_list_create();
-	listObjectsWithVar(_radius, _tasks, "touchable");
+	var _tasks = sys_info.list_workables();
 	if(!ds_list_empty(_tasks)) {
 		filterDSHasVar(_tasks, 0, "workable");
 		if(!ds_list_empty(_tasks)) {

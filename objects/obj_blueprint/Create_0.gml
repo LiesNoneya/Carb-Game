@@ -1,10 +1,11 @@
 /// @description Insert description here
 // You can write your code in this editor
+enum BPStates {Rolled, Unrolled, Ready}
 
 event_inherited();
 //recipe = global.crafting_recipes.debug_recipe_1;
 work_count = 0;
-rolled = true;
+craft_state = BPStates.Rolled;
 touchable = true;
 workable = false;
 
@@ -12,6 +13,43 @@ found_ingredients = ds_list_create();
 
 remaining_ingredients = [];
 collected_ingredients = [];
+
+work_enable();
+
+function work_get_available()
+{
+	if(array_length(remaining_ingredients) == 0 && workable)
+	{
+		return true;
+	} else
+	{
+		return false;	
+	}
+}
+
+function work_get_position(_obj)
+{
+	return [x, y];
+}
+
+function work_instructions(_obj)
+{
+	_obj.chomp(self);
+}
+
+function bitten()
+{
+	work_done();
+	instance_create_layer(x,y, "instances", recipe.result);
+	array_foreach(collected_ingredients, bpdestroy)
+	collected_ingredients = [];
+	instance_destroy(self);
+}
+//I have to make this cuz otherwise array_foreach would pass the array index into instance_destroy and im mad about it
+function bpdestroy(_obj)
+{
+	instance_destroy(_obj);
+}
 //if it overlaps with an object in its recipe, and that object is not being held, and it still needs that object, take the object.
 //I think the object should not be deleted since it might want to be able to keep its state, so it'll just go inactive
 
@@ -32,12 +70,11 @@ FUNCTIONS
 
 */
 
-
-grab_setup_ability(grabbed_ability);
-
-function grabbed_ability()
+grab_enable();
+mi_enable(MI_Types.Press);
+function obj_mi_press()
 {
-	if(rolled)
+	if(craft_state == BPStates.Rolled)
 	{
 		unroll();	
 	} else
@@ -46,101 +83,115 @@ function grabbed_ability()
 	}
 }
 
+function obj_mi_hold()
+{
+
+}
+
+function obj_mi_release()
+{
+
+}
+
+grab_setup_enable_mi();
+grab_setup_reaction_functions(disable_work, undefined, undefined, enable_work);
+
+function disable_work()
+{
+	workable = false;	
+}
+function enable_work()
+{
+	if(craft_state == BPStates.Ready)
+	{
+			workable = true;
+	}
+}
+function grabbed_ability()
+{
+	if(blueprint_state == BPStates.Rolled)
+	{
+		unroll();
+	} else
+	{
+		reroll();
+	}
+}
+
 function reroll()
 {
 	//spill items
+	array_foreach(collected_ingredients, free_object);
 	
 	//clear memory or whatever
-	//swap sprite and state
-	sprite_index = spr_blueprint_closed;
-	rolled = true;
-	workable = false;
-	array_foreach(collected_ingredients, free_object);
 	array_delete(collected_ingredients, 0, array_length(collected_ingredients));
 	array_delete(remaining_ingredients, 0, array_length(remaining_ingredients));
-}
+
+	//swap sprite and state
+	sprite_index = spr_blueprint_closed;
+	swap_craft_state(BPStates.Rolled);
+	//prevent crafting
+	work_done();
+	workable = false;
+	}
 
 function unroll()
 {
-	remaining_ingredients = read_recipe();
 	//prep stuff
-	
+	remaining_ingredients = read_recipe();
 	
 	//swap sprite and state
 	sprite_index = spr_blueprint_open;
-	rolled = false;
+	swap_craft_state(BPStates.Unrolled);
 }
 
 
 
-function state_start() {
-	//just an outline, you can have as many states as you want
-	switch(state) {
-	case 0: 
-	show_debug_message(array_length(remaining_ingredients));
-		if(array_length(remaining_ingredients) == 0)
+function craft_state_start() {
+	switch(craft_state) {
+	case BPStates.Rolled: 
+	
+		break;
+	case BPStates.Unrolled:
+		break;
+	case BPStates.Ready:
+		if(grab_state == Grab_States.None)
 		{
 			workable = true;
 		}
 		break;
-	case 1:
-		storage_start();
-		break;
-	case 2:
-		workable = false;
-		break;
-	case 3:
-		flung_start();
 	}
 }
 
-function swap_state(_state) {
+function craft_state_end() {
+	switch(craft_state) {
+	case BPStates.Rolled: 
+	
+		break;
+	case BPStates.Unrolled:
+		break;
+	case BPStates.Ready:
+		
+		break;
+	}
+}
+
+function swap_craft_state(_state) {
 	
 	//so that state end and start arent called eroniously
 	//if you would like to restart a state you could just call state_start manually
-	if(state != _state) {
+	if(craft_state != _state) {
 		//call state end
-		state_end(_state);
-		state = _state;
+		craft_state_end();
+		craft_state = _state;
 		//then state start
-		state_start();
-	}
-}
-
-function run_state(state)
-{
-	switch(state) {
-	case 0:
-		if(!rolled)
-		{
-			
-			collision_rectangle_list(x - 40, y - 30, x + 40, y + 30, remaining_ingredients, false, true, found_ingredients, false);
-			while(ds_list_size(found_ingredients) > 0)
-			{
-				var _curr_item = ds_list_find_value(found_ingredients, 0);
-				take_item(_curr_item);
-				show_debug_message("ready to take item!");
-				show_debug_message(_curr_item);
-				ds_list_delete(found_ingredients, 0);
-			}
-			if(array_length(remaining_ingredients) == 0)
-			{
-				workable = true;
-			}
-		}
-		break;
-	case 2:
-		grab_step();
-		break;
-	case 3:
-		flung_step()
-		break;
+		craft_state_start();
 	}
 }	
 
 function read_recipe()
 {
-	returnArray = [];
+	var returnArray = [];
 	//iterate through the ingredients in the array
 	for(var _i = 0; _i < array_length(recipe.ingredients); _i++)
 	{
@@ -154,16 +205,17 @@ function read_recipe()
 	return returnArray;
 }
 
+//pick the item up and add it to colleccted ingredients
 function take_item(_object)
 {
-	if(_object.grabbed == false)
+	if(_object.grab_state == Grab_States.None || _object.grab_state == Grab_States.Flung)
 	{
 		//update arrays
 		if(array_contains(remaining_ingredients, _object.object_index) && !array_contains(collected_ingredients, _object))
 		{
 			array_delete(remaining_ingredients, array_get_index(remaining_ingredients, _object.object_index), 1);
 			array_push(collected_ingredients, _object);
-			_object.swap_state(1);
+			_object.enter_storage(self);
 		}
 		//if remaining ingredients is empty, 
 		if(array_length(remaining_ingredients) == 0)
@@ -175,53 +227,7 @@ function take_item(_object)
 
 function free_object(_object)
 {
-	_object.storage_x = x;
-	_object.storage_y = y;
-	_object.swap_state(0);	
+	//reimplement
+	_object.swap_state(ItemStates.Normal);
 }
 
-
-function approach() {
-	
-}
-
-function approached() {
-	show_debug_message(self.object_index);
-	show_debug_message("is being touched!");
-}
-
-function init_approach() {
-	with(ds_list_find_value(touchers,ds_list_size(touchers) - 1)) {
-		updateTarget(touching_inst); 
-		target_y = target_y;
-		//init goto
-		init_goto(1.1,1.3,0,5,false);
-		self.state_start();
-	}
-	approached();
-}
-
-function touch_start(_self) {
-	with(_self) {
-		if(x > target.x) {
-		image_xscale = 1;	
-		} else {
-			image_xscale = -1;	
-		}
-		_self.swap_state(7);
-	}
-}
-
-function touch_step(_self) {
-	with(_self) {
-		
-	}
-}
-
-function work_hit() {
-	work_count += 1;
-	if(work_count >= recipe.work_required) {
-	instance_create_layer(x,y,"Instances",recipe.result);
-	die_general(false);
-	}
-}

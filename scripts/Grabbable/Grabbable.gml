@@ -17,45 +17,22 @@ enum Grab_Types {Held, Tug};
 //did that I think god im so bad at this
 function grab_enable()
 {
-	grab_state = Grab_States.None;
-	grab_type = Grab_Types.Held;
-	//if offset is enabled, the object will snap to a preset position when clicked and stay at that offset from the mouse.
-	grab_do_offset = false;
-	grab_offset_x = 0;
-	grab_offset_y = 0;
-	grab_start_anim = undefined;
-	grab_sprite = undefined;
-	grab_fling_animation = undefined;
+	grab_enable_base();
 	grab_uses_mi_hitbox = true;
 	hitbox_list_add(sys_mouse.list_grab_hitboxes, mouse_interact_hitbox);
-	obj_grab_start = grab_start;
-	obj_grab_end = grab_end;
+	
 	//use this to disable the object being grabbed. note that this will not force the mouse to drop the object.
-	grabbable = true;
-	ability = false;
-	grab_prev_x = x;
-	grab_prev_y = y;
-	grab_miable = false;
 	
 }
 
+//I dont think this works at all
 function grab_enable_custom_hb(_obj_hitbox)
 {
-	grab_state = Grab_States.None;
-	grab_do_offset = false;
-	grab_offset_x = 0;
-	grab_offset_y = 0;
-	grab_start_anim = undefined;
-	grab_sprite = undefined;
-	grab_fling_animation = undefined;
+	grab_enable_base();
 	grab_uses_mi_hitbox = false;
 	grab_hitbox = _obj_hitbox;
 	hitbox_list_add(sys_mouse.list_grab_hitboxes, grab_hitbox);
-	grabbable = true;
-	ability = false;
-	obj_grab_start = grab_start;
-	obj_grab_end = grab_end;
-	grab_miable = false;
+	
 }
 
 //Component setup functions are optional functions that can make initializing specific aspects of a component easier.
@@ -90,6 +67,15 @@ function grab_setup_enable_tug(_tug_dist, _tug_resistance, _tug_end_function)
 	tug_mouse_dist = 0;
 }
 
+//allows you to choose functions in the object that will be triggered whenever the object is grabbed or put down.
+//set any to undefined if you dont want them
+function grab_setup_reaction_functions(_held_start_function, _tug_start_function, _flung_start_function, _none_start_function)
+{
+	obj_grab_held_start = _held_start_function;
+	obj_grab_tug_start = _tug_start_function;
+	obj_grab_flung_start = _flung_start_function;
+	obj_grab_none_start = _none_start_function;
+}
 
 function grab_step()
 {
@@ -148,6 +134,10 @@ function grab_state_start()
 		case Grab_States.Held:
 			miable = false;
 			spd = 0;
+			if(obj_grab_held_start != undefined)
+			{
+				obj_grab_held_start();	
+			}
 			if(controller != undefined)
 			{
 				actionable = false;
@@ -181,6 +171,10 @@ function grab_state_start()
 			
 		case Grab_States.Flung:
 			//can replace with play anim easily if I ever get one
+			if(obj_grab_flung_start != undefined)
+			{
+				obj_grab_flung_start();	
+			}
 			if(grab_fling_animation != undefined)
 			{
 				sprite_index = grab_fling_animation;
@@ -197,6 +191,10 @@ function grab_state_start()
 			miable = true;
 			spd = 0;
 			//sprite_index = ;
+			if(obj_grab_none_start != undefined)
+			{
+				obj_grab_none_start();	
+			}
 			if(controller != undefined) 
 			{
 				actionable = true;
@@ -204,8 +202,13 @@ function grab_state_start()
 			}
 			break;
 		case Grab_States.Tug:
+		
 			tug_progress = 0;
 			display_mouse_set(global.screen_center_x, global.screen_center_y);
+			if(obj_grab_tug_start != undefined)
+			{
+				obj_grab_tug_start();	
+			}
 			break;
 	}
 }
@@ -299,4 +302,27 @@ function tug_mouse_update()
 }
 
 
+function grab_enable_base()
+{
+	grab_state = Grab_States.None;
+	grab_type = Grab_Types.Held;
+	grab_do_offset = false;
+	grab_offset_x = 0;
+	grab_offset_y = 0;
+	grab_start_anim = undefined;
+	grab_sprite = undefined;
+	grab_fling_animation = undefined;
+	grabbable = true;
+	ability = false;
+	grab_prev_x = x;
+	grab_prev_y = y;
+	obj_grab_start = grab_start;
+	obj_grab_end = grab_end;
+	grab_miable = false;
+	
+	obj_grab_held_start = undefined;
+	obj_grab_tug_start = undefined;
+	obj_grab_flung_start = undefined;
+	obj_grab_none_start = undefined;
+}
 #endregion

@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"listObjects",
+  "%Name":"list_functions",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"listObjects",
+  "name":"list_functions",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",

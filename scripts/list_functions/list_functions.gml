@@ -56,3 +56,28 @@ function DSClosest(_ds,_x,_y) {
 	return _min;
 }
 */
+
+//removes an item from a ds list by finding its index
+function ds_list_remove(_ds_list, _to_remove){
+	var _num = ds_list_find_index(_ds_list, _to_remove);
+	if(_num != -1)
+	{
+		ds_list_delete(_ds_list, _num);
+		show_debug_message(_ds_list);
+	} else
+	{
+		show_debug_message("item not found in list");	
+	}
+}
+
+//only adds the item to the list if it is not already present
+function ds_list_add_new(_ds_list, _to_add)
+{
+	if(ds_list_find_index(_ds_list, _to_add) == -1)
+	{
+		ds_list_add(_ds_list, _to_add);
+		return true;
+	} 
+	show_debug_message(ds_list_find_index(_ds_list, _to_add));
+	return false;
+}
