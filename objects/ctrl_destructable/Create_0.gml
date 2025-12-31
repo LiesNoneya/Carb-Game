@@ -1,17 +1,27 @@
 event_inherited();
 drops_enable();
 grabbable = false;
+droppable = false;
+storable = false;
 hp = 5;
 //sprite it swaps to when hit and sprite it returns to when that animation is finished. 
 //leave either undefiend to disable hit animation.
-bitten_animation_sprites = [undefined,undefined];
+struck_animation_sprites = [undefined,undefined];
 //if left undefined, the object will be deleted when it dies
 death_sprite = undefined;
 
+jobs = {
+	dest_work : new work_job(
+		Tasks.Work, 
+		Actions.Chomp,
+		has_health,
+		true, 
+		get_side_position
+	),
+}
+work_enable(jobs);
 
-work_enable();
-
-function work_get_available()
+function has_health()
 {
 	if(hp > 0)
 	{
@@ -20,7 +30,7 @@ function work_get_available()
 	return false;
 }
 
-function work_get_position(_obj)
+function get_side_position(_obj)
 {
 	var _work_side = self.x < _obj.x;
 	var _x = x + (_work_side * 50) - 20;
@@ -28,12 +38,7 @@ function work_get_position(_obj)
 	return [_x, _y];
 }
 
-function work_instructions(_obj)
-{
-	_obj.chomp(self);
-}
-
-function bitten()
+function Struck()
 {
 	show_debug_message("ouchiee ouch ouch ouch!");
 		hp -= 1;
@@ -49,10 +54,10 @@ function bitten()
 				die_general(false);	
 			}
 		} else {
-			if(bitten_animation_sprites[0] != undefined &&  bitten_animation_sprites[1] != undefined)
+			if(struck_animation_sprites[0] != undefined &&  struck_animation_sprites[1] != undefined)
 			{
-				play_anim(bitten_animation_sprites[0],bitten_animation_sprites[1]);
-				custom_bit_behaviour();
+				play_anim(struck_animation_sprites[0],struck_animation_sprites[1]);
+				custom_struck_behaviour();
 			}
 		}		
 }

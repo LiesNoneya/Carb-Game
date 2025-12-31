@@ -6,11 +6,12 @@ grabbed_instance = undefined;
 grabbed_obj = undefined;
 interacting_instance = undefined;
 interacting = false;
-//drawpetting = false;
+//used for dropboxes
+mouse_dropped = undefined;
 list_mi_hitboxes = ds_list_create();
 list_grab_hitboxes = ds_list_create();
 
-//window_set_cursor(cr_none);
+window_set_cursor(cr_none);
 /*
 function interact (_obj) {
 	
@@ -96,10 +97,13 @@ function mouse_grab_end()
 {
 	grabbed_instance.obj_grab_end();
 	mouse_tug_end();
+	mouse_dropped = grabbed_instance;
 	grabbing = Grabbing_States.None;	
 	grabbed_instance = undefined;
 	grabbed_obj = undefined;
 	sprite_index = spr_handempty;
+	//hope one day I can come up with something better than a stupid 2 frame alarm
+	alarm_set(0,2)
 }
 
 function mouse_interact_start(_obj)

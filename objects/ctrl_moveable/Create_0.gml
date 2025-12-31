@@ -96,7 +96,7 @@ event_inherited();
 		}
 		return _return;
 	}
-	
+	//made by Nitroxy, probably the only good one of these functions.
 	//Parameter: _wall_type: Type of collision to check
 	//Uses: x, y, xspd, yspd
 	//Updates: collide, destroy
@@ -123,6 +123,7 @@ event_inherited();
 		}
 	}
 	
+	//Might have been made my Nitroxy and is good if it was idr
 	//Parameter: _wall_type: Type of collision to check
 	//Uses: x, y, xspd, yspd
 	//Updates: collide, destroy, xspd, yspd
@@ -192,6 +193,7 @@ event_inherited();
 		}
 		kb_spd += _incoming_kb;
 	}
+		
 	function kb_decay() {
 		kb_spd -= 0.1;	
 		kb_spd = clamp(kb_spd,0,99)

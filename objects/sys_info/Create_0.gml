@@ -2,6 +2,7 @@
 // You can write your code in this editor
 list_carbs = ds_list_create();
 list_workables = ds_list_create();
+list_dropboxes = ds_list_create();
 
 function list_carbs_add(_obj)
 {

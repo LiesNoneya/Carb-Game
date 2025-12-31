@@ -16,44 +16,16 @@ grab_setup_offset(true, 9, 20);
 
 
 tripping = false;
+weight_shitty = 0.88;
 //all functions that the AI tries to call in the carb should fail if the carb is not actionable
 actionable = true;
-weight_shitty = 0.88;
 
-#region Actions
-function start_wait(_time)
-{
-	if(actionable)
-	{
-		action = Actions.Idle;
-		//standing
-		spd = 0;
-		//amount of time to stand
-		alarm_set(0, _time);
-		sprite_index = spr_carb_white;
-		return true;
-	} else
-	{
-		return false;
-	}
-}
+//action variables
+act_idle_sprite = spr_carb_white;
+act_walk_sprite = spr_carb_white_walk;
 
-function start_walk(_dir, _spd, _time)
-{
-	if(actionable)
-	{
-		action = Actions.Idle;
-		move_dir = _dir;
-		spd = _spd;
-		if(_time < 1) {_time = 1}
-		alarm_set(0, _time);
-		sprite_index = spr_carb_white_walk;
-		return true;
-	} else
-	{
-		return false;
-	}
-}
+#region unique actions
+
 
 function trip()
 {
@@ -93,6 +65,27 @@ function end_snuggle()
 	
 }
 
+function chomp(_obj)
+{
+	action = Actions.Chomp;
+	spd = 0;
+	sprite_index = spr_carb_white_chomp;
+	image_index = 0;
+	chomping_instance = _obj;
+	alarm_set(2,36);
+}
+
+function eat(_obj)
+{
+	interrupt();
+	action = Actions.Eat;
+	spd = 0;
+	sprite_index = spr_carb_white_eat;
+	image_index = 0;
+	eating_instance = _obj;
+	alarm_set(2,36);
+}
+
 #endregion
 
 //stops absolutely everything the carb is doing
@@ -128,25 +121,7 @@ function obj_mi_release()
 	//controller.give_feedback(AIFeedback.Task_Done);
 }
 
-function chomp(_obj)
-{
-	action = Actions.Chomp;
-	spd = 0;
-	sprite_index = spr_carb_white_chomp;
-	image_index = 0;
-	chomping_instance = _obj;
-	alarm_set(2,36);
-}
 
-function eat(_obj)
-{
-	action = Actions.Eat;
-	spd = 0;
-	sprite_index = spr_carb_white_eat;
-	image_index = 0;
-	eating_instance = _obj;
-	alarm_set(2,36);
-}
 
 function lasso(_x, _y) {
 		//if carb is touching lasso tile
@@ -157,3 +132,29 @@ function lasso(_x, _y) {
 			y = _y;
 		}
 	}
+	
+#region dropbox setup
+mouth_box = dropbox_enable_ext(hb_carb_eat, 0, 0, dropped_eat, food_filter);
+function food_filter(_obj)
+{
+	return _obj.object_index == obj_spiderfruit ?  true : false;
+}
+function dropped_eat(_obj)
+{
+	with(bound_obj)
+	{
+		eat(_obj);
+	}
+}
+
+carry_box = dropbox_setup_new_dropbox_filter(hb_carb_carry, 0, 0, store_item, carry_filter);
+function store_item(_obj)
+{
+	_obj.x = 0;
+	_obj.y = 0;
+}
+function carry_filter(_obj)
+{
+	return _obj.object_index == obj_spiderfruit ?  false : true;
+}
+#endregion

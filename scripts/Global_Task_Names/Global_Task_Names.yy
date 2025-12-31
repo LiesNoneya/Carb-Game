@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Global_Task_Names",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Global_Task_Names",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

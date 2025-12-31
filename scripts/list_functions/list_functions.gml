@@ -81,3 +81,25 @@ function ds_list_add_new(_ds_list, _to_add)
 	show_debug_message(ds_list_find_index(_ds_list, _to_add));
 	return false;
 }
+
+function ds_list_closest_obj(_ds_list, _x, _y)
+{
+	if(!ds_list_empty(_ds_list))
+	{
+		var _min = ds_list_find_value(_ds_list, 0);
+		var _min_index = 0;
+		for(var _i = 0; _i < ds_list_size(_ds_list); _i++)
+		{
+			var _curr = point_distance(ds_list_find_value(_ds_list, _i).x, ds_list_find_value(_ds_list, _i).y, _x, _y);
+			if(_curr < _min)
+			{
+				_min = curr;
+				_min_index = _i;
+			}
+		}
+		return ds_list_find_value(_ds_list, _min_index);
+	} else
+	{
+		show_debug_message("list was empty.");	
+	}
+}

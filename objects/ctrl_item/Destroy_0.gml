@@ -9,3 +9,4 @@ if(variable_instance_exists(self, "list_hitboxes"))
 	}
 }
 sys_mouse.clean_hitbox_lists();
+work_destroy();

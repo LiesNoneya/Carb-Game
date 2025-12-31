@@ -79,51 +79,62 @@ function grab_setup_reaction_functions(_held_start_function, _tug_start_function
 
 function grab_step()
 {
-	switch(grab_state)
+	if(grab_state != undefined)
 	{
-		case Grab_States.Held:
-			grab_prev_x = x;
-			grab_prev_y = y;
-			x = mouse_x + grab_offset_x;
-			y = mouse_y + grab_offset_y;
+		switch(grab_state)
+		{
+			case Grab_States.Held:
+				grab_prev_x = x;
+				grab_prev_y = y;
+				x = mouse_x + grab_offset_x;
+				y = mouse_y + grab_offset_y;
 			
-			break;
+				break;
 			
-		case Grab_States.Flung:
-			if(spd > 60) {
-				spd = 60;	
-			}
-			spd = spd*weight_shitty;
+			case Grab_States.Flung:
+				if(spd > 60) {
+					spd = 60;	
+				}
+				spd = spd*weight_shitty;
 			
-			//state change check
-			if(spd < 2) {
-				grab_swap_state(Grab_States.None);
-			}
-			break;
+				//state change check
+				if(spd < 2) {
+					grab_swap_state(Grab_States.None);
+				}
+				break;
 			
-		case Grab_States.Tug:
-			//this implementation works but it breaks the principle of respecting the player's sensitivity
-			//to fix I need to scale the room coords with the cam zoom
-			tug_progress -= 0.1;
-			tug_mouse_update();
-			var _mouse_dist = clamp(point_distance(sys_mouse.x, sys_mouse.y, x, y), 0, tug_dist * 0.99);
-			//should move the hand by the amount of distance the mouse moved on the screen scaled to the max distance of the hand from the plant
-			sys_mouse.x -= tug_mouse_x * tug_dist/global.screen_center_smaller * (tug_dist - _mouse_dist)/tug_dist;
-			sys_mouse.y -= tug_mouse_y * tug_dist/global.screen_center_smaller * (tug_dist - _mouse_dist)/tug_dist;
-			var _tug_str = clamp(_mouse_dist, 0, tug_dist);
-			display_mouse_set(global.screen_center_x, global.screen_center_y);
-			tug_progress += 0.2 * (_tug_str/tug_dist);
+			case Grab_States.Tug:
+				//this implementation works but it breaks the principle of respecting the player's sensitivity
+				//to fix I need to scale the room coords with the cam zoom
+				tug_progress -= 0.1;
+				tug_mouse_update();
+				var _mouse_dist = clamp(point_distance(sys_mouse.x, sys_mouse.y, x, y), 0, tug_dist * 0.99);
+				//should move the hand by the amount of distance the mouse moved on the screen scaled to the max distance of the hand from the plant
+				sys_mouse.x -= tug_mouse_x * tug_dist/global.screen_center_smaller * (tug_dist - _mouse_dist)/tug_dist;
+				sys_mouse.y -= tug_mouse_y * tug_dist/global.screen_center_smaller * (tug_dist - _mouse_dist)/tug_dist;
+				var _tug_str = clamp(_mouse_dist, 0, tug_dist);
+				display_mouse_set(global.screen_center_x, global.screen_center_y);
+				tug_progress += 0.2 * (_tug_str/tug_dist);
 			
-			//if(tug_mouse_dist >= global.screen_center_y)
-			//{
-				//}
-			tug_progress = clamp(tug_progress, 0, tug_resist);
-			if(tug_progress >= tug_resist)
-			{
-				tug_end();
-			}
-			//tug_progress = 0;
+				//if(tug_mouse_dist >= global.screen_center_y)
+				//{
+					//}
+				tug_progress = clamp(tug_progress, 0, tug_resist);
+				if(tug_progress >= tug_resist)
+				{
+					tug_end();
+				}
+				//tug_progress = 0;
 			
+		}
+		//if this item was dropped on the previous frame
+		if(!ds_list_empty(dropbox_dropped_on))
+		{
+			//find which dropbox is the closest, may be replaced or integrated with a priority system some time
+			ds_list_closest_obj(dropbox_dropped_on, x, y).accept_item(self);
+			//clear the array before the next frame
+			ds_list_clear(dropbox_dropped_on);
+		}
 	}
 }
 
@@ -324,5 +335,8 @@ function grab_enable_base()
 	obj_grab_tug_start = undefined;
 	obj_grab_flung_start = undefined;
 	obj_grab_none_start = undefined;
+	
+	droppable = false;
+	dropbox_dropped_on = ds_list_create();
 }
 #endregion

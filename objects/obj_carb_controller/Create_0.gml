@@ -43,7 +43,7 @@ function state_start()
 	switch(state) 
 	{
 		case States.Stand:
-			pawn.start_wait(irandom_range(1, 180));
+			pawn.act_idle(irandom_range(1, 180));
 			break;
 			
 		case States.Walk:
@@ -77,7 +77,7 @@ function give_feedback(_fb)
 	{
 		case AIFeedback.Task_Done:
 			//only triggers if they are in an idle state dw
-			swap_idle_state();
+			choose_idle_action();
 			//any state tasks that return to idle once they are finished should be added to the list here
 			return_to_idle();
 			if(state == States.Whistled)
@@ -88,7 +88,7 @@ function give_feedback(_fb)
 			switch(state)
 			{
 				case States.Whistled:
-					working_instance = find_near_task(400);	
+					working_instance = find_near_task(Tasks.Work, 400);	
 					if(working_instance != undefined)
 					{
 						if(!work_start_approach())
@@ -134,6 +134,8 @@ function give_feedback(_fb)
 				}
 				swap_state(States.Stand);
 			}
+		case AIFeedback.Hit:
+			if(
 			break;
 	}
 }
@@ -155,7 +157,7 @@ function walk_to(_target_x, _target_y, _spd_max, _spd_min, _goal_dist)
 	var _rand_spd = random_range(_spd_max,_spd_min);
 	var _walk_time = point_distance(pawn.x, pawn.y, _target_x, _target_y)/_rand_spd;
 	_walk_time -= _goal_dist/_rand_spd;
-	return pawn.start_walk(_target_dir, _rand_spd, _walk_time);
+	return pawn.act_walk(_target_dir, _rand_spd, _walk_time);
 	//time = length/speed
 }
 function start_idle_walk()
@@ -166,7 +168,7 @@ function start_idle_walk()
 			_rand_spd = 8;	
 		}
 	var _rand_time = irandom_range(30, 180);
-	return pawn.start_walk(_rand_dir, _rand_spd, _rand_time);
+	return pawn.act_walk(_rand_dir, _rand_spd, _rand_time);
 		
 		//alarm for feedback
 
@@ -174,13 +176,14 @@ function start_idle_walk()
 		//alarm_set(1,48);	
 }
 
-function swap_idle_state() {
+function choose_idle_action() {
 	if(state == States.Stand) {
+		//Add: randomly select between walk, hit, idle anim
 		swap_state(States.Walk);	
-		//state_start();
+		
 	}	else if (state == States.Walk) {
+		//Add: chance to hit something instead.
 		swap_state(States.Stand);
-		//state_start();
 	}
 }
 
@@ -196,24 +199,6 @@ function return_to_idle()
 	{
 		swap_state(States.Stand);
 	}
-}
-
-function find_near_task(_dist)
-{
-	var _best_dist = _dist;
-	var _list_workables = sys_info.list_workables;
-	var _selected = undefined;
-	for(var i = 0; i < ds_list_size(_list_workables); i++)
-	{
-		var _work = ds_list_find_value(_list_workables, i)
-		var _work_dist = point_distance(pawn.x, pawn.y, _work.x, _work.y)
-		if(_work.work_get_available() && _work_dist < _best_dist)
-		{
-				_best_dist = _work_dist;
-				_selected = _work;
-		}
-	}
-		return _selected;
 }
 
 function work_start_approach()
