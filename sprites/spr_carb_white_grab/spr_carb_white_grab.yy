@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_carb_white_grab",
   "bboxMode":0,
   "bbox_bottom":49,
@@ -12,9 +12,9 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"8eb391ae-d574-4d7d-9890-6cd9955d6dd5","name":"8eb391ae-d574-4d7d-9890-6cd9955d6dd5","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"ef8665a7-a3fd-458d-af0a-c22f889c6675","name":"ef8665a7-a3fd-458d-af0a-c22f889c6675","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"7e0a9a33-09f2-413a-8795-c71047f120e4","name":"7e0a9a33-09f2-413a-8795-c71047f120e4","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"8eb391ae-d574-4d7d-9890-6cd9955d6dd5","name":"8eb391ae-d574-4d7d-9890-6cd9955d6dd5","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"ef8665a7-a3fd-458d-af0a-c22f889c6675","name":"ef8665a7-a3fd-458d-af0a-c22f889c6675","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"7e0a9a33-09f2-413a-8795-c71047f120e4","name":"7e0a9a33-09f2-413a-8795-c71047f120e4","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -72,15 +72,9 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"8eb391ae-d574-4d7d-9890-6cd9955d6dd5","path":"sprites/spr_carb_white_grab/spr_carb_white_grab.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"783e4ef8-3cea-46dc-9ce6-406987169cc7","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"ef8665a7-a3fd-458d-af0a-c22f889c6675","path":"sprites/spr_carb_white_grab/spr_carb_white_grab.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"a6205c59-5872-4a52-9369-ff518b2013ee","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"7e0a9a33-09f2-413a-8795-c71047f120e4","path":"sprites/spr_carb_white_grab/spr_carb_white_grab.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"70a4a1b2-3df5-466a-b9d8-b60af416eed9","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"8eb391ae-d574-4d7d-9890-6cd9955d6dd5","path":"sprites/spr_carb_white_grab/spr_carb_white_grab.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"783e4ef8-3cea-46dc-9ce6-406987169cc7","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"ef8665a7-a3fd-458d-af0a-c22f889c6675","path":"sprites/spr_carb_white_grab/spr_carb_white_grab.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"a6205c59-5872-4a52-9369-ff518b2013ee","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"7e0a9a33-09f2-413a-8795-c71047f120e4","path":"sprites/spr_carb_white_grab/spr_carb_white_grab.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"70a4a1b2-3df5-466a-b9d8-b60af416eed9","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

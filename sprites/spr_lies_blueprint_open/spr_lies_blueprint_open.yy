@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_lies_blueprint_open",
   "bboxMode":2,
   "bbox_bottom":55,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"2030316b-5c17-48c0-b0e0-b0f8e66db1a7","name":"2030316b-5c17-48c0-b0e0-b0f8e66db1a7","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"2030316b-5c17-48c0-b0e0-b0f8e66db1a7","name":"2030316b-5c17-48c0-b0e0-b0f8e66db1a7","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

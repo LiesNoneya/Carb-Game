@@ -17,45 +17,22 @@ enum Grab_Types {Held, Tug};
 //did that I think god im so bad at this
 function grab_enable()
 {
-	grab_state = Grab_States.None;
-	grab_type = Grab_Types.Held;
-	//if offset is enabled, the object will snap to a preset position when clicked and stay at that offset from the mouse.
-	grab_do_offset = false;
-	grab_offset_x = 0;
-	grab_offset_y = 0;
-	grab_start_anim = undefined;
-	grab_sprite = undefined;
-	grab_fling_animation = undefined;
+	grab_enable_base();
 	grab_uses_mi_hitbox = true;
 	hitbox_list_add(sys_mouse.list_grab_hitboxes, mouse_interact_hitbox);
-	obj_grab_start = grab_start;
-	obj_grab_end = grab_end;
+	
 	//use this to disable the object being grabbed. note that this will not force the mouse to drop the object.
-	grabbable = true;
-	ability = false;
-	grab_prev_x = x;
-	grab_prev_y = y;
-	grab_miable = false;
 	
 }
 
+//I dont think this works at all
 function grab_enable_custom_hb(_obj_hitbox)
 {
-	grab_state = Grab_States.None;
-	grab_do_offset = false;
-	grab_offset_x = 0;
-	grab_offset_y = 0;
-	grab_start_anim = undefined;
-	grab_sprite = undefined;
-	grab_fling_animation = undefined;
+	grab_enable_base();
 	grab_uses_mi_hitbox = false;
 	grab_hitbox = _obj_hitbox;
 	hitbox_list_add(sys_mouse.list_grab_hitboxes, grab_hitbox);
-	grabbable = true;
-	ability = false;
-	obj_grab_start = grab_start;
-	obj_grab_end = grab_end;
-	grab_miable = false;
+	
 }
 
 //Component setup functions are optional functions that can make initializing specific aspects of a component easier.
@@ -85,44 +62,79 @@ function grab_setup_enable_tug(_tug_dist, _tug_resistance, _tug_end_function)
 	tug_resist = _tug_resistance;
 	tug_progress = 0;
 	tug_end = _tug_end_function;
+	tug_mouse_x = 0;
+	tug_mouse_y = 0;
+	tug_mouse_dist = 0;
 }
 
+//allows you to choose functions in the object that will be triggered whenever the object is grabbed or put down.
+//set any to undefined if you dont want them
+function grab_setup_reaction_functions(_held_start_function, _tug_start_function, _flung_start_function, _none_start_function)
+{
+	obj_grab_held_start = _held_start_function;
+	obj_grab_tug_start = _tug_start_function;
+	obj_grab_flung_start = _flung_start_function;
+	obj_grab_none_start = _none_start_function;
+}
 
 function grab_step()
 {
-	switch(grab_state)
+	if(grab_state != undefined)
 	{
-		case Grab_States.Held:
-			grab_prev_x = x;
-			grab_prev_y = y;
-			x = mouse_x + grab_offset_x;
-			y = mouse_y + grab_offset_y;
+		switch(grab_state)
+		{
+			case Grab_States.Held:
+				grab_prev_x = x;
+				grab_prev_y = y;
+				x = mouse_x + grab_offset_x;
+				y = mouse_y + grab_offset_y;
 			
-			break;
+				break;
 			
-		case Grab_States.Flung:
-			if(spd > 60) {
-				spd = 60;	
-			}
-			spd = spd*weight_shitty;
+			case Grab_States.Flung:
+				if(spd > 60) {
+					spd = 60;	
+				}
+				spd = spd*weight_shitty;
 			
-			//state change check
-			if(spd < 2) {
-				grab_swap_state(Grab_States.None);
-			}
-			break;
+				//state change check
+				if(spd < 2) {
+					grab_swap_state(Grab_States.None);
+				}
+				break;
 			
-		case Grab_States.Tug:
-			//animation stuff some day
-			tug_progress -= 0.1;
-			var _tug_str = clamp(point_distance(mouse_x, mouse_y, x, y), 0, tug_dist);
-			tug_progress += 0.2 * (_tug_str/tug_dist);
-			tug_progress = clamp(tug_progress, 0, tug_resist);
-			if(tug_progress >= tug_resist)
-			{
-				tug_end();
-			}
-			tug_progress = 0;
+			case Grab_States.Tug:
+				//this implementation works but it breaks the principle of respecting the player's sensitivity
+				//to fix I need to scale the room coords with the cam zoom
+				tug_progress -= 0.1;
+				tug_mouse_update();
+				var _mouse_dist = clamp(point_distance(sys_mouse.x, sys_mouse.y, x, y), 0, tug_dist * 0.99);
+				//should move the hand by the amount of distance the mouse moved on the screen scaled to the max distance of the hand from the plant
+				sys_mouse.x -= tug_mouse_x * tug_dist/global.screen_center_smaller * (tug_dist - _mouse_dist)/tug_dist;
+				sys_mouse.y -= tug_mouse_y * tug_dist/global.screen_center_smaller * (tug_dist - _mouse_dist)/tug_dist;
+				var _tug_str = clamp(_mouse_dist, 0, tug_dist);
+				display_mouse_set(global.screen_center_x, global.screen_center_y);
+				tug_progress += 0.2 * (_tug_str/tug_dist);
+			
+				//if(tug_mouse_dist >= global.screen_center_y)
+				//{
+					//}
+				tug_progress = clamp(tug_progress, 0, tug_resist);
+				if(tug_progress >= tug_resist)
+				{
+					tug_end();
+				}
+				//tug_progress = 0;
+			
+		}
+		//if this item was dropped on the previous frame
+		if(!ds_list_empty(dropbox_dropped_on))
+		{
+			//find which dropbox is the closest, may be replaced or integrated with a priority system some time
+			ds_list_closest_obj(dropbox_dropped_on, x, y).accept_item(self);
+			//clear the array before the next frame
+			ds_list_clear(dropbox_dropped_on);
+		}
 	}
 }
 
@@ -133,6 +145,10 @@ function grab_state_start()
 		case Grab_States.Held:
 			miable = false;
 			spd = 0;
+			if(obj_grab_held_start != undefined)
+			{
+				obj_grab_held_start();	
+			}
 			if(controller != undefined)
 			{
 				actionable = false;
@@ -166,6 +182,10 @@ function grab_state_start()
 			
 		case Grab_States.Flung:
 			//can replace with play anim easily if I ever get one
+			if(obj_grab_flung_start != undefined)
+			{
+				obj_grab_flung_start();	
+			}
 			if(grab_fling_animation != undefined)
 			{
 				sprite_index = grab_fling_animation;
@@ -182,6 +202,10 @@ function grab_state_start()
 			miable = true;
 			spd = 0;
 			//sprite_index = ;
+			if(obj_grab_none_start != undefined)
+			{
+				obj_grab_none_start();	
+			}
 			if(controller != undefined) 
 			{
 				actionable = true;
@@ -189,7 +213,13 @@ function grab_state_start()
 			}
 			break;
 		case Grab_States.Tug:
+		
 			tug_progress = 0;
+			display_mouse_set(global.screen_center_x, global.screen_center_y);
+			if(obj_grab_tug_start != undefined)
+			{
+				obj_grab_tug_start();	
+			}
 			break;
 	}
 }
@@ -204,6 +234,8 @@ function grab_state_end()
 		case Grab_States.Flung:
 		
 			break;
+		case Grab_States.Tug:
+			set_mouse_to_room_pos(sys_mouse.x, sys_mouse.y);
 	}
 }
 
@@ -268,5 +300,43 @@ function grab_snap(_x, _y)
 {
 	grab_offset_x = _x;
 	grab_offset_y = _y;
+}
+#endregion
+
+#region Grab Internal Functions
+function tug_mouse_update()
+{
+	
+	tug_mouse_x = clamp(global.screen_center_x - display_mouse_get_x(), -global.screen_center_smaller, global.screen_center_smaller);
+	tug_mouse_y = clamp(global.screen_center_y - display_mouse_get_y(), -global.screen_center_smaller, global.screen_center_smaller);
+	tug_mouse_dist = clamp(point_distance(global.screen_center_x, global.screen_center_y, display_mouse_get_x(), display_mouse_get_y()), -global.screen_center_smaller, global.screen_center_smaller);
+}
+
+
+function grab_enable_base()
+{
+	grab_state = Grab_States.None;
+	grab_type = Grab_Types.Held;
+	grab_do_offset = false;
+	grab_offset_x = 0;
+	grab_offset_y = 0;
+	grab_start_anim = undefined;
+	grab_sprite = undefined;
+	grab_fling_animation = undefined;
+	grabbable = true;
+	ability = false;
+	grab_prev_x = x;
+	grab_prev_y = y;
+	obj_grab_start = grab_start;
+	obj_grab_end = grab_end;
+	grab_miable = false;
+	
+	obj_grab_held_start = undefined;
+	obj_grab_tug_start = undefined;
+	obj_grab_flung_start = undefined;
+	obj_grab_none_start = undefined;
+	
+	droppable = false;
+	dropbox_dropped_on = ds_list_create();
 }
 #endregion

@@ -177,37 +177,11 @@ function spd_resolve() {
 
 function state_start() {
 	//just an outline, you can have as many states as you want
-	switch(state) {
-	case 0: 
-	
-		break;
-	case 1:
-	
-		break;
-	case 2:
-	
-		break;
-	case 3:
-	
-		break;
-	}
+
 }
 
 function state_end(_state) {
-	switch(state) {
-	case 0: 
-	
-		break;
-	case 1:
-	
-		break;
-	case 2:
-	
-		break;
-	case 3:
-	
-		break;
-	}
+
 }
 
 
@@ -229,32 +203,6 @@ function swap_state(_state) {
 		state_start();
 	}
 }
-
-function state_entry_con(_state) {
-	switch(state) {
-	case 0: 
-		if(false) {
-			state = 0;	
-		}
-		break;
-	case 1:
-		if(false) {
-			state = 1;	
-		}
-		break;
-	case 2:
-		if(false) {
-			state = 2;	
-		}
-		break;
-	case 3:
-		if(false) {
-			state = 3;	
-		}	
-		break;
-	}
-}
-
 
 #endregion
 

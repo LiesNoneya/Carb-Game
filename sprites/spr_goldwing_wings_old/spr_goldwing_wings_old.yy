@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_goldwing_wings_old",
   "bboxMode":0,
   "bbox_bottom":71,
@@ -12,10 +12,10 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"ee8299ba-9f89-4fb7-a489-742b4dbdd677","name":"ee8299ba-9f89-4fb7-a489-742b4dbdd677","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"b1586501-b388-49e1-b892-4374e9b9705b","name":"b1586501-b388-49e1-b892-4374e9b9705b","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"223650d9-c1a5-4dc1-8c79-bc7b60d7d1dc","name":"223650d9-c1a5-4dc1-8c79-bc7b60d7d1dc","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"d97c3b1a-9937-4ae3-82e3-c2134793be08","name":"d97c3b1a-9937-4ae3-82e3-c2134793be08","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"ee8299ba-9f89-4fb7-a489-742b4dbdd677","name":"ee8299ba-9f89-4fb7-a489-742b4dbdd677","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"b1586501-b388-49e1-b892-4374e9b9705b","name":"b1586501-b388-49e1-b892-4374e9b9705b","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"223650d9-c1a5-4dc1-8c79-bc7b60d7d1dc","name":"223650d9-c1a5-4dc1-8c79-bc7b60d7d1dc","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"d97c3b1a-9937-4ae3-82e3-c2134793be08","name":"d97c3b1a-9937-4ae3-82e3-c2134793be08","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -73,18 +73,10 @@
     "timeUnits":1,
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"ee8299ba-9f89-4fb7-a489-742b4dbdd677","path":"sprites/spr_goldwing_wings_old/spr_goldwing_wings_old.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"28e60f00-fbf7-4858-9a99-73aa296743fc","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"b1586501-b388-49e1-b892-4374e9b9705b","path":"sprites/spr_goldwing_wings_old/spr_goldwing_wings_old.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"6ce7b0a9-c812-4997-8193-fa9da2aa0fa4","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"223650d9-c1a5-4dc1-8c79-bc7b60d7d1dc","path":"sprites/spr_goldwing_wings_old/spr_goldwing_wings_old.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"f0b58de6-6877-4974-b9e3-75ed574ab899","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"d97c3b1a-9937-4ae3-82e3-c2134793be08","path":"sprites/spr_goldwing_wings_old/spr_goldwing_wings_old.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"90c20891-f5a6-451a-a4b8-2f5e42fa9cd5","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"ee8299ba-9f89-4fb7-a489-742b4dbdd677","path":"sprites/spr_goldwing_wings_old/spr_goldwing_wings_old.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"28e60f00-fbf7-4858-9a99-73aa296743fc","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"b1586501-b388-49e1-b892-4374e9b9705b","path":"sprites/spr_goldwing_wings_old/spr_goldwing_wings_old.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"6ce7b0a9-c812-4997-8193-fa9da2aa0fa4","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"223650d9-c1a5-4dc1-8c79-bc7b60d7d1dc","path":"sprites/spr_goldwing_wings_old/spr_goldwing_wings_old.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"f0b58de6-6877-4974-b9e3-75ed574ab899","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"d97c3b1a-9937-4ae3-82e3-c2134793be08","path":"sprites/spr_goldwing_wings_old/spr_goldwing_wings_old.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},},"Disabled":false,"id":"90c20891-f5a6-451a-a4b8-2f5e42fa9cd5","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

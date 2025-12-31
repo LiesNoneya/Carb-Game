@@ -1,5 +1,5 @@
 {
-  "$GMNotes":"",
+  "$GMNotes":"v1",
   "%Name":"GLOBAL ALARMS LIST",
   "name":"GLOBAL ALARMS LIST",
   "parent":{

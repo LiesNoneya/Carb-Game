@@ -5,7 +5,7 @@
 event_inherited();
 
 death_sprite = spr_lies_spidertree_stump;
-bitten_animation_sprites = [spr_spidertree_damage,spr_spidertree_still];
+struck_animation_sprites = [spr_spidertree_damage,spr_spidertree_still];
 //list all the items this object will drop when it dies
 drops = [obj_log, obj_spiderfluff];
 
@@ -17,7 +17,7 @@ drops = [obj_log, obj_spiderfluff];
 	drop_chance = [100, 100];
 
 drops_setup_add_excl_drop_set([obj_spiderfruit, obj_spiderfluff], [1, 1], [1, 1]);
-drops_setup_add_excl_drop_set([obj_spiderfruit, obj_spiderfluff], [1, 2], [1, 1]);
+drops_setup_add_excl_drop_set([obj_spiderfruit, obj_spiderfluff], [1, 1], [1, 1]);
 
 
 function work_get_position(_obj)
@@ -33,7 +33,7 @@ function work_instructions(_obj)
 	_obj.chomp(self);
 }
 
-function custom_bit_behaviour()
+function custom_struck_behaviour()
 {
 	if(irandom(2) == 2) {
 		drop_fruit();

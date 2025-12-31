@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"DropBox",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"DropBox",
+  "parent":{
+    "name":"Components",
+    "path":"folders/Scripts/Components.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

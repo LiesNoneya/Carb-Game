@@ -6,11 +6,12 @@ grabbed_instance = undefined;
 grabbed_obj = undefined;
 interacting_instance = undefined;
 interacting = false;
-//drawpetting = false;
+//used for dropboxes
+mouse_dropped = undefined;
 list_mi_hitboxes = ds_list_create();
 list_grab_hitboxes = ds_list_create();
 
-//window_set_cursor(cr_none);
+window_set_cursor(cr_none);
 /*
 function interact (_obj) {
 	
@@ -96,10 +97,13 @@ function mouse_grab_end()
 {
 	grabbed_instance.obj_grab_end();
 	mouse_tug_end();
+	mouse_dropped = grabbed_instance;
 	grabbing = Grabbing_States.None;	
 	grabbed_instance = undefined;
 	grabbed_obj = undefined;
 	sprite_index = spr_handempty;
+	//hope one day I can come up with something better than a stupid 2 frame alarm
+	alarm_set(0,2)
 }
 
 function mouse_interact_start(_obj)
@@ -136,30 +140,8 @@ function mouse_tug_end()
 
 #endregion
 
-function set_mouse_to_room_pos(_x, _y)
-{
-	//I think I can simplify these calculations remind me to check up on that later
-	var _cam_x = camera_get_view_x(view_camera[0]);
-	var _cam_y = camera_get_view_y(view_camera[0]);
-	var _a = [0, 0];
-	var _b = [_cam_x, _cam_y];
-	var _cam_off_len = point_distance(_a[0], _a[1], _b[0], _b[1]);
-	var _cam_off_dir = point_direction(_a[0], _a[1], _b[0], _b[1]);
-	var _x_off_b = lengthdir_x(_cam_off_len, _cam_off_dir);
-	var _y_off_b = lengthdir_y(_cam_off_len, _cam_off_dir);
-	draw_line(_x_off_b, _y_off_b, _a[0], _a[1]);
-		
-	var _c = [window_get_x(), window_get_y()];
-	var _win_off_len = point_distance(_a[0], _a[1], _c[0], _c[1]);
-	var _win_off_dir = point_direction(_a[0], _a[1], _c[0], _c[1]);
-	var _x_off_c = lengthdir_x(_win_off_len, _win_off_dir);
-	var _y_off_c = lengthdir_y(_win_off_len, _win_off_dir);
-		
-	var _window_mult_w = (window_get_width()/display_get_width())/sys_camera.cam_mult;
-	var _window_mult_h = (window_get_height()/display_get_height())/sys_camera.cam_mult;
-	display_mouse_set((_x - _x_off_b) * _window_mult_w  + _x_off_c, (_y - _y_off_b) * _window_mult_h + _y_off_c);
-}
 
+//this code sucks if it pisses me off one more time I change it to something normal
 function clean_hitbox_lists()
 {
 	for(var _i = 0; _i < ds_list_size(list_mi_hitboxes); _i++)
@@ -167,6 +149,7 @@ function clean_hitbox_lists()
 		if(ds_list_find_value(list_mi_hitboxes, _i).hitbox_destroy == true)
 		{
 			ds_list_delete(list_mi_hitboxes, _i);
+			_i -= 1;
 		}
 	}
 	for(var _i = 0; _i < ds_list_size(list_grab_hitboxes); _i++)
@@ -174,6 +157,7 @@ function clean_hitbox_lists()
 		if(ds_list_find_value(list_grab_hitboxes, _i).hitbox_destroy == true)
 		{
 			ds_list_delete(list_grab_hitboxes, _i);
+			_i -= 1;
 		}
 	}
 }

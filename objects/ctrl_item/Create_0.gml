@@ -1,8 +1,12 @@
 event_inherited();
+enum ItemStates {Normal, Intangible, OpenStored, ClosedStored}
 //Items wont have controllers I think, so this is just to let functions know that it doesnt exist if they try to check for it
 controller = undefined;
 //Instance Variables
-state = 0;
+intangible = false;
+storer = undefined;
+storable = true;
+state = ItemStates.Normal;
 
 prev_x = 0;
 prev_y = 0;
@@ -16,6 +20,7 @@ workable = false;
 hp = 6;
 //the list of carbs touching the instance that any carb must remove themself from when they are done touching.
 touchers = ds_list_create();
+
 //movement functions (such as boost) will need to array_push themselves to this.
 active_movements = [];
 
@@ -25,12 +30,69 @@ weight_shitty = 0.88;
 
 mouse_interact_hitbox = instantiate_hitbox(obj_hb_small_item_mi);
 grab_enable();
+droppable = true;
 //IMPORTANT
 /* 
 you must copy this function into your objects create event
 under your new definitions of state_start and state_end, 
 even if you are using event inherited.
 */
+
+
+function state_start()
+{
+	switch(state)
+	{
+		case ItemStates.Normal:
+			toggle_intangible(false);
+			visible = true;
+			break;
+		case ItemStates.Intangible:
+			toggle_intangible(true);
+			visible = false;
+			break;
+		case ItemStates.OpenStored:
+			//default stored behaviour
+			
+			//Item specific functionality
+			generalstorage_start();
+			openstorage_start();
+			break;
+		case ItemStates.ClosedStored:
+			//default stored behaviour
+			toggle_intangible(true);
+			visible = false;
+			//Item specific functionality
+			generalstorage_start();
+			closedstorage_start();
+			break;
+	}
+}
+
+function state_end(_state)
+{
+	switch(state)
+	{
+		case ItemStates.Normal:
+
+			break;
+		case ItemStates.Intangible:
+
+			break;
+		case ItemStates.OpenStored:
+		
+			generalstorage_end();
+			openstorage_end();
+			break;
+		case ItemStates.ClosedStored:
+			toggle_intangible(false);
+			visible = true;
+			generalstorage_end();
+			closedstorage_end();
+			break;
+	}
+}
+
 function swap_state(_state) {
 	
 	//so that state end and start arent called eroniously
@@ -44,42 +106,85 @@ function swap_state(_state) {
 	}
 }
 
-function state_entry_con(_state) {
-	switch(state) {
-	case 0: 
-		if(false) {
-			state = 0;	
+
+function toggle_intangible(_bool)
+{
+	if(_bool)
+	{
+		ds_list_remove(sys_mouse.list_mi_hitboxes, mouse_interact_hitbox);
+		ds_list_remove(sys_mouse.list_grab_hitboxes, mouse_interact_hitbox);
+		ds_list_remove(sys_info.list_workables, self);
+	} else
+	{
+		ds_list_add_new(sys_mouse.list_mi_hitboxes, mouse_interact_hitbox);
+		ds_list_add_new(sys_mouse.list_grab_hitboxes, mouse_interact_hitbox);
+		if(touchable)
+		{
+			ds_list_add_new(sys_info.list_workables, self);
 		}
-		break;
-	case 1:
-		if(false) {
-			state = 1;	
-		}
-		break;
-	case 2:
-		if(false) {
-			state = 2;	
-		}
-		break;
-	case 3:
-		if(false) {
-			state = 3;	
-		}	
-		break;
 	}
 }
 
-//state 0 is idle, state 1 is in storage, state 2 is grabbed, state 3 is flung
-
+function enter_storage(_storer)
+{
+	storer = _storer;
+	swap_state(ItemStates.ClosedStored);
+}
+#region Item Specific Storage Functions
+function generalstorage_start()
+{
+	
+}
+function openstorage_start()
+{
+	
+}
+function closedstorage_start()
+{
+	
+}
+function generalstorage_end()
+{
+	
+}
+function openstorage_end()
+{
+	
+}
+function closedstorage_end()
+{
+	
+}
+function generalstorage_step()
+{
+	
+}
+function openstorage_step()
+{
+	
+}
+function closedstorage_step()
+{
+	
+}
 #endregion
 
-#region Default State Functions
 
 
 
 
 
-#endregion
+
+
+
+
+
+
+
+
+
+
+
 /*
 rip shitty code u wont be missed
 #region Carb Interaction Functions
