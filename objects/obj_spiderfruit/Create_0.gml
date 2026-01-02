@@ -12,7 +12,21 @@ dropped = false;
 
 work_enable();
 
-function work_get_available()
+work_add_job(
+	Tasks.Work, 
+	already_being_eaten, 
+	true, 
+	food_position
+);
+
+work_add_job(
+	Tasks.Play, 
+	already_being_eaten, 
+	true, 
+	food_position
+);
+
+function already_being_eaten()
 {
 	if(ds_list_empty(list_working))
 	{
@@ -21,14 +35,9 @@ function work_get_available()
 	return false;
 }
 
-function work_get_position(_obj)
+function food_position(_obj)
 {
 	return [x,y];
-}
-
-function work_instructions(_obj)
-{
-	_obj.eat(self);
 }
 
 function eaten()

@@ -1,3 +1,7 @@
+//TODO:
+/*
+actually limit distance on carb actions
+*/
 /// @description Insert description here
 // You can write your code in this editor
 
@@ -71,7 +75,17 @@ function chomp(_obj)
 	spd = 0;
 	sprite_index = spr_carb_white_chomp;
 	image_index = 0;
-	chomping_instance = _obj;
+	nomming_instance = _obj;
+	alarm_set(2,36);
+}
+
+function bite(_obj)
+{
+	action = Actions.Strike;
+	spd = 0;
+	sprite_index = spr_carb_white_chomp;
+	image_index = 0;
+	nomming_instance = _obj;
 	alarm_set(2,36);
 }
 
@@ -82,7 +96,7 @@ function eat(_obj)
 	spd = 0;
 	sprite_index = spr_carb_white_eat;
 	image_index = 0;
-	eating_instance = _obj;
+	nomming_instance = _obj;
 	alarm_set(2,36);
 }
 

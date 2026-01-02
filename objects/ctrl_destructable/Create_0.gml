@@ -10,17 +10,22 @@ struck_animation_sprites = [undefined,undefined];
 //if left undefined, the object will be deleted when it dies
 death_sprite = undefined;
 
-jobs = {
-	dest_work : new work_job(
-		Tasks.Work, 
-		Actions.Chomp,
-		has_health,
-		true, 
-		get_side_position
-	),
-}
-work_enable(jobs);
 
+work_enable();
+//formatted like constructor cuz it basically is one
+work_add_job(
+	Tasks.Work, 
+	has_health,
+	true, 
+	get_side_position
+);
+work_add_job(
+	Tasks.Play, 
+	has_health,
+	true, 
+	get_side_position
+);
+	
 function has_health()
 {
 	if(hp > 0)
@@ -38,7 +43,7 @@ function get_side_position(_obj)
 	return [_x, _y];
 }
 
-function Struck()
+function struck()
 {
 	show_debug_message("ouchiee ouch ouch ouch!");
 		hp -= 1;

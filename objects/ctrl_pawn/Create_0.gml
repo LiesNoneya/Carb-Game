@@ -4,7 +4,7 @@
 // Inherit the parent event
 event_inherited();
 total_num_actions = 6;
-enum Actions {Idle, Walk, Trip, Snuggle, Chomp, Eat}
+enum Actions {Idle, Walk, Trip, Snuggle, Chomp, Eat, Strike}
 action = Actions.Idle;
 controller = undefined;
 

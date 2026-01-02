@@ -7,7 +7,12 @@
 	//_task_name - what task from the Tasks enum is tied to this job
 	//_req_approach - boolean for if this object must be approached before it can be worked on
 	//_get_available_function - what function to use to check for if the object is available to be worked on.
+		//should return a boolean
+		//use work_get_available to access this function, accessing it directly will not work.
 	//_get_position_function - if _req_approach is true, what function to use to get the coordinates to walk to.
+		//should take a pawn as an input (the worker)
+		//should return [x,y]
+		//use work_get_position to access this function, accessing it directly will not work.
 //3. Put work_destroy in the object's destroy event.
 
 //4. when its time to do the work, have the worker's controller use work_try_task.
@@ -27,7 +32,7 @@ function work_enable()
 
 function work_add_job(_task_name, _get_available_func, _req_approach, _get_position_func)
 {
-	work_jobs_array(_task_name) = work_job(_get_available_func, _req_approach, _get_position_func);
+	work_jobs_array[_task_name] = new work_job(_get_available_func, _req_approach, _get_position_func);
 }
 
 function work_job(_get_available_func, _req_approach, _get_position_func) constructor
@@ -63,18 +68,35 @@ function work_destroy()
 function work_try_task(_task, _obj)
 {
 	//get the job info
-	var _job = _obj.work_jobs_array(_task)
+	var _job = _obj.work_jobs_array[_task]
 	
 	//check if that object has that task
 	if(_job != undefined)
 	{
-		if(_obj.work_get_available())
+		
+		if(work_get_available(_obj, _job))
 		{
 			return _job;
 		}
 	} 
 	return undefined;
 	
+}
+
+//kinda jank, I did not expect to need this.
+function work_get_available(_obj, _job)
+{
+	with(_obj)
+	{
+		return method_call(_job.get_available);	
+	}
+}
+function work_get_position(_obj, _job, _pawn)
+{
+	with(_obj)
+	{
+		return method_call(_job.get_position, [_pawn]);	
+	}
 }
 /*
 PLAN
